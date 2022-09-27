@@ -8,6 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class CustomerRegistrationResponse {
+    private Long userId;
     private String message;
     private int code;
 }
