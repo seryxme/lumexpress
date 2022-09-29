@@ -1,5 +1,5 @@
 package com.hotsystemsng.lumexpress.data.models;
 
 public enum Category {
-    FASHION, ELECTRONICS, FOOD, FURNITURE, GAMES
+    FASHION, ELECTRONICS, FOOD, FURNITURE, GAMES, BEVERAGES
 }
