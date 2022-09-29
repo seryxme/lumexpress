@@ -1,6 +1,7 @@
 package com.hotsystemsng.lumexpress.services;
 
 import com.hotsystemsng.lumexpress.data.dtos.requests.AddProductRequest;
+import com.hotsystemsng.lumexpress.data.dtos.requests.GetAllItemsRequest;
 import com.hotsystemsng.lumexpress.data.dtos.responses.AddProductResponse;
 import com.hotsystemsng.lumexpress.data.models.Product;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,7 +35,7 @@ class ProductServiceImplTest {
                 .category("Beverages")
                 .price(BigDecimal.valueOf(30.00))
                 .quantity(10)
-//                .image(file)
+                .image(file)
                 .build();
     }
 
@@ -62,9 +63,16 @@ class ProductServiceImplTest {
     }
 
     @Test
-    void getAllProducts() {
-        Page<Product> productsPage = productService.getAllProducts();
+    void getAllProducts() throws IOException {
+        productService.addProduct(request);
+        var itemsRequest = GetAllItemsRequest
+                .builder()
+                .numberOfItemsPerPage(8)
+                .pageNumber(1)
+                .build();
+        Page<Product> productsPage = productService.getAllProducts(itemsRequest);
 
+        assertThat(productsPage).isNotNull();
         assertThat(productsPage.getTotalElements()).isGreaterThan(0L);
     }
 

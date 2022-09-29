@@ -3,6 +3,7 @@ package com.hotsystemsng.lumexpress.services;
 import com.cloudinary.utils.ObjectUtils;
 import com.hotsystemsng.lumexpress.cloud.CloudService;
 import com.hotsystemsng.lumexpress.data.dtos.requests.AddProductRequest;
+import com.hotsystemsng.lumexpress.data.dtos.requests.GetAllItemsRequest;
 import com.hotsystemsng.lumexpress.data.dtos.requests.UpdateProductRequest;
 import com.hotsystemsng.lumexpress.data.dtos.responses.AddProductResponse;
 import com.hotsystemsng.lumexpress.data.models.Category;
@@ -18,8 +19,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -62,11 +61,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<Product> getAllProducts() {
-
-        Pageable pageSpecs = PageRequest.of(0, 5);
-        productRepository.findAll();
-        return null;
+    public Page<Product> getAllProducts(GetAllItemsRequest request) {
+        Pageable pageSpecs = PageRequest.of(request.getPageNumber() - 1, request.getNumberOfItemsPerPage());
+        return productRepository.findAll(pageSpecs);
     }
 
     @Override

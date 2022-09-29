@@ -1,6 +1,7 @@
 package com.hotsystemsng.lumexpress.services;
 
 import com.hotsystemsng.lumexpress.data.dtos.requests.AddProductRequest;
+import com.hotsystemsng.lumexpress.data.dtos.requests.GetAllItemsRequest;
 import com.hotsystemsng.lumexpress.data.dtos.requests.UpdateProductRequest;
 import com.hotsystemsng.lumexpress.data.dtos.responses.AddProductResponse;
 import com.hotsystemsng.lumexpress.data.models.Product;
@@ -11,8 +12,12 @@ import java.util.List;
 
 public interface ProductService {
     AddProductResponse addProduct(AddProductRequest request) throws IOException;
+
     String updateProductDetails(UpdateProductRequest request);
+
     Product getProduct(Long id);
-    Page<Product> getAllProducts();
+
+    Page<Product> getAllProducts(GetAllItemsRequest request);
+
     String deleteProduct(Long id);
 }
