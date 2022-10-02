@@ -6,6 +6,7 @@ import com.hotsystemsng.lumexpress.data.dtos.requests.AddProductRequest;
 import com.hotsystemsng.lumexpress.data.dtos.requests.GetAllItemsRequest;
 import com.hotsystemsng.lumexpress.data.dtos.requests.UpdateProductRequest;
 import com.hotsystemsng.lumexpress.data.dtos.responses.AddProductResponse;
+import com.hotsystemsng.lumexpress.data.dtos.responses.UpdateProductResponse;
 import com.hotsystemsng.lumexpress.data.models.Category;
 import com.hotsystemsng.lumexpress.data.models.Product;
 import com.hotsystemsng.lumexpress.data.repositories.ProductRepository;
@@ -49,7 +50,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public String updateProductDetails(UpdateProductRequest request) {
+    public UpdateProductResponse updateProductDetails(UpdateProductRequest request) {
+        var foundProduct = productRepository.findById(request.getProductId()).orElseThrow(
+                ()-> new ProductNotFoundException(String.format("Product with ID %d is not present", request.getProductId()))
+        );
+
         return null;
     }
 

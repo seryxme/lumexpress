@@ -2,7 +2,9 @@ package com.hotsystemsng.lumexpress.services;
 
 import com.hotsystemsng.lumexpress.data.dtos.requests.AddProductRequest;
 import com.hotsystemsng.lumexpress.data.dtos.requests.GetAllItemsRequest;
+import com.hotsystemsng.lumexpress.data.dtos.requests.UpdateProductRequest;
 import com.hotsystemsng.lumexpress.data.dtos.responses.AddProductResponse;
+import com.hotsystemsng.lumexpress.data.dtos.responses.UpdateProductResponse;
 import com.hotsystemsng.lumexpress.data.models.Product;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,6 +27,7 @@ class ProductServiceImplTest {
     @Autowired
     private ProductService productService;
     private AddProductRequest request;
+    private AddProductResponse response;
 
     @BeforeEach
     void setUp() throws IOException {
@@ -37,34 +40,40 @@ class ProductServiceImplTest {
                 .quantity(10)
                 .image(file)
                 .build();
+        response = productService.addProduct(request);
     }
 
     @Test
-    void create() throws IOException {
-        AddProductResponse response = productService.addProduct(request);
+    void addProductTest() throws IOException {
         assertThat(response).isNotNull();
         assertThat(response.getProductId()).isGreaterThan(0L);
         assertThat(response.getMessage()).isNotNull();
         assertThat(response.getCode()).isEqualTo(201);
-
     }
 
     @Test
-    void updateProductDetails() {
-
+    void updateProductDetailsTest() {
+        UpdateProductRequest updateRequest = UpdateProductRequest
+                .builder()
+                .productId(1L)
+                .price(BigDecimal.valueOf(40.00))
+                .quantity(20)
+                .description("Fizzy drinks.")
+                .build();
+        UpdateProductResponse updateResponse = productService.updateProductDetails(updateRequest);
+        assertThat(updateResponse).isNotNull();
+        assertThat(updateResponse.getStatusCode()).isEqualTo(201);
     }
 
     @Test
-    void getProduct() throws IOException {
-        var response = productService.addProduct(request);
+    void getProductTest() throws IOException {
         Product foundProduct = productService.getProduct(response.getProductId());
         assertThat(foundProduct).isNotNull();
         assertThat(foundProduct.getId()).isEqualTo(response.getProductId());
     }
 
     @Test
-    void getAllProducts() throws IOException {
-        productService.addProduct(request);
+    void getAllProductsTest() throws IOException {
         var itemsRequest = GetAllItemsRequest
                 .builder()
                 .numberOfItemsPerPage(8)
@@ -77,6 +86,7 @@ class ProductServiceImplTest {
     }
 
     @Test
-    void deleteProduct() {
+    void deleteProductTest() {
+        assertThat(productService.deleteProduct(response.getProductId()));
     }
 }
