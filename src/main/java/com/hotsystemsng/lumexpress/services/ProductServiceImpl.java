@@ -27,7 +27,7 @@ import java.io.IOException;
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final CloudService cloudService;
-    private final ModelMapper mapper = new ModelMapper();
+    private final ModelMapper mapper;
 
     @Override
     public AddProductResponse addProduct(AddProductRequest request) throws IOException {
