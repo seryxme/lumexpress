@@ -1,5 +1,12 @@
 package com.hotsystemsng.lumexpress.services;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.fge.jackson.jsonpointer.JsonPointer;
+import com.github.fge.jackson.jsonpointer.JsonPointerException;
+import com.github.fge.jsonpatch.JsonPatch;
+import com.github.fge.jsonpatch.JsonPatchException;
+import com.github.fge.jsonpatch.ReplaceOperation;
 import com.hotsystemsng.lumexpress.data.dtos.requests.AddProductRequest;
 import com.hotsystemsng.lumexpress.data.dtos.requests.GetAllItemsRequest;
 import com.hotsystemsng.lumexpress.data.dtos.requests.UpdateProductRequest;
@@ -19,6 +26,7 @@ import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -52,15 +60,13 @@ class ProductServiceImplTest {
     }
 
     @Test
-    void updateProductDetailsTest() {
-        UpdateProductRequest updateRequest = UpdateProductRequest
-                .builder()
-                .productId(1L)
-                .price(BigDecimal.valueOf(40.00))
-                .quantity(20)
-                .description("Fizzy drinks.")
-                .build();
-        UpdateProductResponse updateResponse = productService.updateProductDetails(updateRequest);
+    void updateProductDetailsTest() throws IOException, JsonPatchException, JsonPointerException {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode value = mapper.readTree("\"fizzy\"");
+        JsonPatch patch = new JsonPatch(List.of(new ReplaceOperation(new JsonPointer("/name"), value)));
+
+
+        UpdateProductResponse updateResponse = productService.updateProductDetails(1L, patch);
         assertThat(updateResponse).isNotNull();
         assertThat(updateResponse.getStatusCode()).isEqualTo(201);
     }
@@ -85,8 +91,8 @@ class ProductServiceImplTest {
         assertThat(productsPage.getTotalElements()).isGreaterThan(0L);
     }
 
-    @Test
-    void deleteProductTest() {
-        assertThat(productService.deleteProduct(response.getProductId()));
-    }
+//    @Test
+//    void deleteProductTest() {
+//        assertThat(productService.deleteProduct(response.getProductId()));
+//    }
 }

@@ -1,5 +1,8 @@
 package com.hotsystemsng.lumexpress.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.github.fge.jsonpatch.JsonPatch;
+import com.github.fge.jsonpatch.JsonPatchException;
 import com.hotsystemsng.lumexpress.data.dtos.requests.AddProductRequest;
 import com.hotsystemsng.lumexpress.data.dtos.requests.GetAllItemsRequest;
 import com.hotsystemsng.lumexpress.data.dtos.requests.UpdateProductRequest;
@@ -14,7 +17,7 @@ import java.util.List;
 public interface ProductService {
     AddProductResponse addProduct(AddProductRequest request) throws IOException;
 
-    UpdateProductResponse updateProductDetails(UpdateProductRequest request);
+    UpdateProductResponse updateProductDetails(Long productId, JsonPatch patch) throws JsonProcessingException, JsonPatchException;
 
     Product getProduct(Long id);
 
