@@ -66,7 +66,7 @@ class ProductServiceImplTest {
         JsonPatch patch = new JsonPatch(List.of(new ReplaceOperation(new JsonPointer("/price"), value)));
 
 
-        UpdateProductResponse updateResponse = productService.updateProduc``tDetails(1L, patch);
+        UpdateProductResponse updateResponse = productService.updateProductDetails(1L, patch);
         assertThat(updateResponse).isNotNull();
         assertThat(updateResponse.getStatusCode()).isEqualTo(201);
         assertThat(productService.getProduct(1L).getPrice()).isEqualTo(10.00);
