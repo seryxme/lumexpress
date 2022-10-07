@@ -62,13 +62,14 @@ class ProductServiceImplTest {
     @Test
     void updateProductDetailsTest() throws IOException, JsonPatchException, JsonPointerException {
         ObjectMapper mapper = new ObjectMapper();
-        JsonNode value = mapper.readTree("\"fizzy\"");
-        JsonPatch patch = new JsonPatch(List.of(new ReplaceOperation(new JsonPointer("/name"), value)));
+        JsonNode value = mapper.readTree("10.00");
+        JsonPatch patch = new JsonPatch(List.of(new ReplaceOperation(new JsonPointer("/price"), value)));
 
 
-        UpdateProductResponse updateResponse = productService.updateProductDetails(1L, patch);
+        UpdateProductResponse updateResponse = productService.updateProduc``tDetails(1L, patch);
         assertThat(updateResponse).isNotNull();
         assertThat(updateResponse.getStatusCode()).isEqualTo(201);
+        assertThat(productService.getProduct(1L).getPrice()).isEqualTo(10.00);
     }
 
     @Test
