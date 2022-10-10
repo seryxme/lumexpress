@@ -1,4 +1,4 @@
-package com.hotsystemsng.lumexpress.cloud;
+package com.hotsystemsng.lumexpress.services.cloud;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;

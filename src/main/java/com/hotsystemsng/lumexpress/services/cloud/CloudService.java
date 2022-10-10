@@ -1,4 +1,4 @@
-package com.hotsystemsng.lumexpress.cloud;
+package com.hotsystemsng.lumexpress.services.cloud;
 
 import java.io.IOException;
 import java.util.Map;

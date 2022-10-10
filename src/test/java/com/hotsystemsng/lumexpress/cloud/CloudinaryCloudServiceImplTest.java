@@ -1,6 +1,7 @@
 package com.hotsystemsng.lumexpress.cloud;
 
 import com.cloudinary.utils.ObjectUtils;
+import com.hotsystemsng.lumexpress.services.cloud.CloudService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,7 +16,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class CloudinaryCloudServiceImplTest {
