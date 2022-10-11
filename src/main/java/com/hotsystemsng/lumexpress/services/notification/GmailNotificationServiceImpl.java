@@ -1,5 +1,6 @@
 package com.hotsystemsng.lumexpress.services.notification;
 
+import com.hotsystemsng.lumexpress.data.dtos.requests.EmailNotificationRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -9,23 +10,24 @@ import javax.mail.MessagingException;
 
 @Service
 @AllArgsConstructor
-public class GmailEmailSenderImpl implements EmailSender {
+public class GmailNotificationServiceImpl implements EmailNotificationService {
 
     private final JavaMailSender javaMailSender;
 
     @Override
-    public String sendHtmlEmail(EmailDetails emailDetails) {
+    public String sendHtmlEmail(EmailNotificationRequest emailNotification) {
         var mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
         try {
             messageHelper.setFrom("no-reply@lumexpress.com.ng");
-            messageHelper.setTo(emailDetails.getUserEmail());
-            messageHelper.setText(emailDetails.getEmailBody(), true);
+            messageHelper.setSubject(emailNotification.getSubject());
+            messageHelper.setTo(emailNotification.getUserEmail());
+            messageHelper.setText(emailNotification.getEmailBody(), true);
             javaMailSender.send(mimeMessage);
-            return String.format("Email sent to %s successfully!", emailDetails.getUserEmail());
+            return String.format("Email sent to %s successfully!", emailNotification.getUserEmail());
         } catch (MessagingException ex) {
             ex.printStackTrace();
         }
-        return String.format("Email not sent to %s!", emailDetails.getUserEmail());
+        return String.format("Email not sent to %s!", emailNotification.getUserEmail());
     }
 }

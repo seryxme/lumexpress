@@ -1,0 +1,1 @@
+insert into customer values(500L, "serikitunde1000@gmail.com", "Tee", NULL,  "Lex", "12345", NULL);

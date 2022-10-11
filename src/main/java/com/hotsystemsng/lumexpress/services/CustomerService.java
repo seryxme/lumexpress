@@ -8,6 +8,5 @@ import com.hotsystemsng.lumexpress.data.dtos.responses.LoginResponse;
 
 public interface CustomerService {
     CustomerRegistrationResponse register(CustomerRegistrationRequest registerRequest);
-    LoginResponse login(LoginRequest loginRequest);
     String completeProfile(UpdateCustomerDetail updateCustomerDetail);
 }

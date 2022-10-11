@@ -19,7 +19,7 @@ class CustomerServiceImplTest {
     void setUp() {
         request = CustomerRegistrationRequest
                 .builder()
-                .email("me@gmail.com")
+                .email("serikitunde1000@gmail.com")
                 .password("MyP@ssword")
                 .country("Nigeria")
                 .build();
@@ -30,16 +30,12 @@ class CustomerServiceImplTest {
     }
 
     @Test
-    void register() {
+    void registerCustomerTest() {
         CustomerRegistrationResponse response = customerService.register(request);
         assertThat(response).isNotNull();
         assertThat(response.getMessage()).isNotNull();
         assertThat(response.getUserId()).isGreaterThan(0);
         assertThat(response.getCode()).isEqualTo(201);
-    }
-
-    @Test
-    void login() {
     }
 
     @Test

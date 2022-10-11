@@ -1,0 +1,11 @@
+Dear %s,
+
+%nWelcome to LumExpress.%n
+
+%nPlease click the link below to activate our account and enter the token shown below.%n
+
+%nTokens are only valid for 15 minutes.%n
+
+%n<a href=%s>Activate</a>%n
+
+%nVerification Token: %s%n
