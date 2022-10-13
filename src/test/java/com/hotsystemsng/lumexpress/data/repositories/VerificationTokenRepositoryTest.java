@@ -22,19 +22,19 @@ class VerificationTokenRepositoryTest {
     void setUp() {
         verificationToken = new VerificationToken();
         verificationToken.setToken("12345");
-        verificationToken.getCustomer().setEmail("test@gmail.com");
+        verificationToken.setUserEmail("test@gmail.com");
     }
 
-//    @Test
-//    void findByUserEmail() {
-//        verificationTokenRepository.save(verificationToken);
-//        var foundToken = verificationTokenRepository
-//                .findByUserEmail("test@gmail.com")
-//                .orElseThrow(()-> new VerificationTokenException("Token not found."));
-//        log.info("found token ::{}", foundToken);
-//        assertThat(foundToken).isNotNull();
-//        assertThat(foundToken.getToken()).isEqualTo(verificationToken.getToken());
-//    }
+    @Test
+    void findByUserEmail() {
+        verificationTokenRepository.save(verificationToken);
+        var foundToken = verificationTokenRepository
+                .findByUserEmail("test@gmail.com")
+                .orElseThrow(()-> new VerificationTokenException("Token not found."));
+        log.info("found token ::{}", foundToken);
+        assertThat(foundToken).isNotNull();
+        assertThat(foundToken.getToken()).isEqualTo(verificationToken.getToken());
+    }
 
     @Test
     void findByToken() {
