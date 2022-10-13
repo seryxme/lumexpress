@@ -27,7 +27,7 @@ class CustomerControllerTest {
     void setUp() {
         request = CustomerRegistrationRequest
                 .builder()
-                .email("serikitunde1000@gmail.com")
+                .email("serikitunde@1000gmail.com")
                 .password("MyP@ssword")
                 .country("Nigeria")
                 .build();

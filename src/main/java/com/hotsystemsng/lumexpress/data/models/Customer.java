@@ -10,7 +10,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@ToString
+@ToString(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -18,10 +18,10 @@ public class Customer extends LumExpressUser {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     @Cascade(org.hibernate.annotations.CascadeType.PERSIST)
     private Cart cart;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @Cascade(org.hibernate.annotations.CascadeType.PERSIST)
     private Set<Address> address = new HashSet<>();
 

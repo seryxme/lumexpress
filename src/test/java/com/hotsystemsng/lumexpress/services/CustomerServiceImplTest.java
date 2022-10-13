@@ -1,7 +1,9 @@
 package com.hotsystemsng.lumexpress.services;
 
 import com.hotsystemsng.lumexpress.data.dtos.requests.CustomerRegistrationRequest;
+import com.hotsystemsng.lumexpress.data.dtos.requests.UpdateCustomerDetail;
 import com.hotsystemsng.lumexpress.data.dtos.responses.CustomerRegistrationResponse;
+import com.hotsystemsng.lumexpress.utils.LumExpressUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +21,8 @@ class CustomerServiceImplTest {
     void setUp() {
         request = CustomerRegistrationRequest
                 .builder()
-                .email("serikitunde1000@gmail.com")
+                .email("test@gmail.com")
+                .firstName("Tee")
                 .password("MyP@ssword")
                 .country("Nigeria")
                 .build();
@@ -39,6 +42,21 @@ class CustomerServiceImplTest {
     }
 
     @Test
-    void completeProfile() {
+    void updateProfile() {
+        CustomerRegistrationResponse response = customerService.register(request);
+        UpdateCustomerDetail customerDetail = UpdateCustomerDetail.builder()
+                .customerId(response.getUserId())
+                .lastName("Rex")
+                .phoneNumber("08012345678")
+                .imageUrl(LumExpressUtils.getMockImageURL())
+                .buildingNumber(24)
+                .street("Herbert Macaulay Way")
+                .city("Yaba")
+                .state("Lagos State")
+                .build();
+
+        var updateResponse = customerService.updateProfile(customerDetail);
+        assertThat(updateResponse).isNotNull();
+
     }
 }

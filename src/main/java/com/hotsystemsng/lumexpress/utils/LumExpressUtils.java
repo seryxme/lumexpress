@@ -9,4 +9,8 @@ public class LumExpressUtils {
         int number = secureRandom.nextInt(10000, 99999);
         return String.valueOf(number);
     }
+
+    public static String getMockImageURL() {
+        return "https://res.cloudinary.com/dbgweeutq/image/upload/v1664441951/fizzy.jpg";
+    }
 }

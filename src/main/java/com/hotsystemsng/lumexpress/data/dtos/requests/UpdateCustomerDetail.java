@@ -9,7 +9,6 @@ import lombok.*;
 @Builder
 public class UpdateCustomerDetail {
     private Long customerId;
-    private String firstName;
     private String lastName;
     private String phoneNumber;
     private String imageUrl;
@@ -17,5 +16,4 @@ public class UpdateCustomerDetail {
     private String street;
     private String city;
     private String state;
-    private String country;
 }

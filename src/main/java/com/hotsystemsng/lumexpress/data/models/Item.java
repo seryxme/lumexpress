@@ -14,6 +14,7 @@ public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private int quantity;
     @OneToOne
     private Product product;
 }

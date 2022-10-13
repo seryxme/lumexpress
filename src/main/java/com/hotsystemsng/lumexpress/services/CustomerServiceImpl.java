@@ -9,6 +9,7 @@ import com.hotsystemsng.lumexpress.data.models.Cart;
 import com.hotsystemsng.lumexpress.data.models.Customer;
 import com.hotsystemsng.lumexpress.data.models.VerificationToken;
 import com.hotsystemsng.lumexpress.data.repositories.CustomerRepository;
+import com.hotsystemsng.lumexpress.exceptions.UserNotFoundException;
 import com.hotsystemsng.lumexpress.services.notification.EmailNotificationService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -46,19 +47,19 @@ public class CustomerServiceImpl implements CustomerService {
 
     private EmailNotificationRequest buildEmailNotificationRequest(VerificationToken token, String firstName) {
         String email = getEmailTemplate();
-        String mail = null;
-        if (email != null) mail = String.format(email, firstName,
+        String message = null;
+        if (email != null) message = String.format(email, firstName,
                 "http://localhost:8080/api/v1/customer/verify/" + token.getToken(), token.getToken());
         return EmailNotificationRequest.builder()
                 .userEmail(token.getUserEmail())
-                .emailBody(mail)
+                .emailBody(message)
                 .subject("Welcome")
                 .build();
     }
 
     private String getEmailTemplate() {
         try(BufferedReader bufferedReader =
-                    new BufferedReader(new FileReader("/welcome.txt"))) {
+                    new BufferedReader(new FileReader("C:\\Users\\DELL\\IdeaProjects\\lumexpress\\src\\main\\resources\\welcome.txt"))) {
             return bufferedReader.lines().collect(Collectors.joining());
         } catch(IOException ex) {
             ex.printStackTrace();
@@ -75,7 +76,28 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public String completeProfile(UpdateCustomerDetail updateCustomerDetail) {
-        return null;
+    public String updateProfile(UpdateCustomerDetail customerDetail) {
+        var customerToUpdate = customerRepository.findById(customerDetail.getCustomerId())
+                .orElseThrow(()-> new UserNotFoundException(
+                        String.format("Customer with ID %d is not found", customerDetail.getCustomerId())));
+
+        mapper.map(customerDetail, customerToUpdate);
+
+        var updateCustomerAddresses = customerToUpdate.getAddress().stream().findFirst();
+        log.info("before address update -> {}", updateCustomerAddresses);
+        if(updateCustomerAddresses.isPresent()) applyAddressUpdate(customerDetail, updateCustomerAddresses.get());
+
+        customerToUpdate.getAddress().add(updateCustomerAddresses.get());
+        Customer savedCustomer = customerRepository.save(customerToUpdate);
+
+        log.info("Updated customer -> {}", customerToUpdate);
+        return "Details updated successfully!";
+    }
+
+    private void applyAddressUpdate(UpdateCustomerDetail customerDetail, Address address) {
+        address.setBuildingNumber(customerDetail.getBuildingNumber());
+        address.setStreet(customerDetail.getStreet());
+        address.setCity(customerDetail.getCity());
+        address.setState(customerDetail.getState());
     }
 }

@@ -3,10 +3,11 @@ package com.hotsystemsng.lumexpress.data.models;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.aspectj.weaver.ast.Not;
+import lombok.ToString;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
+import javax.persistence.FetchType;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class LumExpressUser {
     private String phoneNumber;
     private String imageUrl;
     private boolean isEnabled;
-    @OneToMany
+    @OneToMany()
     @Cascade(CascadeType.ALL)
     private List<Notification> messages = new ArrayList<>();
 }
