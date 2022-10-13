@@ -40,7 +40,6 @@ class UserServiceImplTest {
                 .email("serikitunde1000@gmail.com")
                 .password("12345")
                 .build();
-
     }
 
     @Test

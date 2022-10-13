@@ -1,5 +1,6 @@
 package com.hotsystemsng.lumexpress.services;
 
+import com.hotsystemsng.lumexpress.data.models.Customer;
 import com.hotsystemsng.lumexpress.data.models.VerificationToken;
 
 public interface VerificationTokenService {

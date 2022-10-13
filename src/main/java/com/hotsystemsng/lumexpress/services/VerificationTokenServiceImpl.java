@@ -1,5 +1,7 @@
 package com.hotsystemsng.lumexpress.services;
 
+import com.hotsystemsng.lumexpress.data.models.Customer;
+import com.hotsystemsng.lumexpress.data.models.LumExpressUser;
 import com.hotsystemsng.lumexpress.data.models.VerificationToken;
 import com.hotsystemsng.lumexpress.data.repositories.VerificationTokenRepository;
 import com.hotsystemsng.lumexpress.exceptions.VerificationTokenException;
