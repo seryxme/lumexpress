@@ -23,5 +23,5 @@ public class Cart {
     @OneToMany(fetch = FetchType.EAGER)
     @Cascade(CascadeType.ALL)
     private List<Item> items = new ArrayList<>();
-    private BigDecimal subtotal;
+    private BigDecimal subtotal = BigDecimal.ZERO;
 }

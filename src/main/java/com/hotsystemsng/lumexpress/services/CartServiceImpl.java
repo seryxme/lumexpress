@@ -28,8 +28,7 @@ public class CartServiceImpl implements CartService {
 
         Item item = buildCartItem(foundProduct);
         foundCart.getItems().add(item);
-        Cart savedCart = cartRepository.save(updateCartSubTotal(foundCart));
-
+        Cart savedCart = cartRepository.save(updateCartSubTotal(foundCart, item));
 
 
         return CartResponse.builder()
@@ -43,12 +42,9 @@ public class CartServiceImpl implements CartService {
         return cartRepository.findAll();
     }
 
-    private Cart updateCartSubTotal(Cart cart) {
-
-        cart.getItems().forEach(item -> {
-            var itemPrice = item.getProduct().getPrice();
-            cart.setSubtotal(itemPrice.add(cart.getSubtotal()));
-        });
+    private Cart updateCartSubTotal(Cart cart, Item item) {
+        BigDecimal itemPrice = item.getProduct().getPrice();
+        cart.setSubtotal(itemPrice.add(cart.getSubtotal()));
         return cart;
     }
 

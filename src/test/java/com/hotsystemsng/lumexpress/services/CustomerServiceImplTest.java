@@ -22,7 +22,7 @@ class CustomerServiceImplTest {
         request = CustomerRegistrationRequest
                 .builder()
                 .email("test@gmail.com")
-                .firstName("Tee")
+                .firstName("Mee")
                 .password("MyP@ssword")
                 .country("Nigeria")
                 .build();
