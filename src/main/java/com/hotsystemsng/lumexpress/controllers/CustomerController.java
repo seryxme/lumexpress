@@ -19,4 +19,9 @@ public class CustomerController {
         return ResponseEntity.status(HttpStatus.CREATED).body(customerService.register(request));
     }
 
+    @GetMapping("/allcustomers")
+    public ResponseEntity<?> getAllCustomers() {
+        return ResponseEntity.status(HttpStatus.FOUND).body(customerService.getAllCustomers());
+    }
+
 }

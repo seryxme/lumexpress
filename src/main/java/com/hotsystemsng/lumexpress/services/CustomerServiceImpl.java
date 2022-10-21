@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -92,6 +93,11 @@ public class CustomerServiceImpl implements CustomerService {
 
         log.info("Updated customer -> {}", customerToUpdate);
         return "Details updated successfully!";
+    }
+
+    @Override
+    public List<Customer> getAllCustomers() {
+        return customerRepository.findAll();
     }
 
     private void applyAddressUpdate(UpdateCustomerDetail customerDetail, Address address) {

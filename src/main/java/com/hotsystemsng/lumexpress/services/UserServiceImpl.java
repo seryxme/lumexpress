@@ -6,6 +6,7 @@ import com.hotsystemsng.lumexpress.data.models.LumExpressUser;
 import com.hotsystemsng.lumexpress.data.repositories.AdminRepository;
 import com.hotsystemsng.lumexpress.data.repositories.CustomerRepository;
 import com.hotsystemsng.lumexpress.data.repositories.VendorRepository;
+import com.hotsystemsng.lumexpress.exceptions.UserNotFoundException;
 import com.hotsystemsng.lumexpress.services.notification.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,20 @@ public class UserServiceImpl implements UserService {
                 .code(400)
                 .message("Login failed. Bad credentials.")
                 .build();
+    }
+
+    @Override
+    public LumExpressUser getUserByUsername(String email) {
+        var foundCustomer = customerRepository.findByEmail(email);
+        if (foundCustomer.isPresent()) return foundCustomer.get();
+
+        var foundAdmin = adminRepository.findByEmail(email);
+        if (foundAdmin.isPresent()) return foundAdmin.get();
+
+        var foundVendor = vendorRepository.findByEmail(email);
+        if (foundVendor.isPresent()) return foundVendor.get();
+
+        throw new UserNotFoundException("No such user!");
     }
 
     private LoginResponse buildSuccessfulLoginResponse(LumExpressUser user) {
