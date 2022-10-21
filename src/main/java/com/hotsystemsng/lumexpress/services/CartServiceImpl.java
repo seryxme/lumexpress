@@ -21,7 +21,7 @@ public class CartServiceImpl implements CartService {
 
 
     @Override
-    public CartResponse addProductToCart(CartRequest cartRequest) {
+    public CartResponse addProductToCart(CartRequest cartRequest) throws CartNotFoundException {
         Cart foundCart = cartRepository.findById(cartRequest.getCartId()).orElseThrow(
                 ()-> new CartNotFoundException(String.format("Cart with ID %d not found.", cartRequest.getCartId())));
         Product foundProduct = productService.getProduct(cartRequest.getProductId());

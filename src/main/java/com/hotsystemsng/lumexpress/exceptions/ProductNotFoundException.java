@@ -1,6 +1,6 @@
 package com.hotsystemsng.lumexpress.exceptions;
 
-public class ProductNotFoundException extends RuntimeException {
+public class ProductNotFoundException extends LumExpressException {
     public ProductNotFoundException() {
         super();
     }

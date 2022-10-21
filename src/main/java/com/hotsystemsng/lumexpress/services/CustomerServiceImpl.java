@@ -9,11 +9,13 @@ import com.hotsystemsng.lumexpress.data.models.Cart;
 import com.hotsystemsng.lumexpress.data.models.Customer;
 import com.hotsystemsng.lumexpress.data.models.VerificationToken;
 import com.hotsystemsng.lumexpress.data.repositories.CustomerRepository;
+import com.hotsystemsng.lumexpress.exceptions.LumExpressException;
 import com.hotsystemsng.lumexpress.exceptions.UserNotFoundException;
 import com.hotsystemsng.lumexpress.services.notification.EmailNotificationService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -31,14 +33,20 @@ public class CustomerServiceImpl implements CustomerService {
     private final CartService cartService;
     private final EmailNotificationService emailNotificationService;
     private final VerificationTokenService verificationTokenService;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
-    public CustomerRegistrationResponse register(CustomerRegistrationRequest registerRequest) {
+    public CustomerRegistrationResponse register(CustomerRegistrationRequest registerRequest) throws LumExpressException {
+        var foundCustomer = customerRepository.findByEmail(registerRequest.getEmail());
+        if (foundCustomer.isPresent())
+            throw new LumExpressException(String.format("%s is already registered.", registerRequest.getEmail()));
         Customer customer = mapper.map(registerRequest, Customer.class);
         customer.setCart(new Cart());
         Address customerAddress = new Address();
         customerAddress.setCountry(registerRequest.getCountry());
         customer.getAddress().add(customerAddress);
+        String encodedPassword = passwordEncoder.encode(customer.getPassword());
+        customer.setPassword(encodedPassword);
         Customer savedCustomer = customerRepository.save(customer);
         log.info("customer to be saved in db::{}", savedCustomer);
         var token = verificationTokenService.createToken(savedCustomer.getEmail());
@@ -77,7 +85,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public String updateProfile(UpdateCustomerDetail customerDetail) {
+    public String updateProfile(UpdateCustomerDetail customerDetail) throws UserNotFoundException {
         var customerToUpdate = customerRepository.findById(customerDetail.getCustomerId())
                 .orElseThrow(()-> new UserNotFoundException(
                         String.format("Customer with ID %d is not found", customerDetail.getCustomerId())));

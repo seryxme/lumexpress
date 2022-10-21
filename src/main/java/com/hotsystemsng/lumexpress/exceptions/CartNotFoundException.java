@@ -1,6 +1,6 @@
 package com.hotsystemsng.lumexpress.exceptions;
 
-public class CartNotFoundException extends RuntimeException {
+public class CartNotFoundException extends LumExpressException {
     public CartNotFoundException() {
         super();
     }

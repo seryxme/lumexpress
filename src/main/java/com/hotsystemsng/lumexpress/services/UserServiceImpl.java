@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public LumExpressUser getUserByUsername(String email) {
+    public LumExpressUser getUserByUsername(String email) throws UserNotFoundException {
         var foundCustomer = customerRepository.findByEmail(email);
         if (foundCustomer.isPresent()) return foundCustomer.get();
 

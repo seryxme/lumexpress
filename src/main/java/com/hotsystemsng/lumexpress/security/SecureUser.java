@@ -6,23 +6,24 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 public class SecureUser implements UserDetails {
-
-    private final LumExpressUser user;
+    private LumExpressUser user;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        user.getAuthorities().forEach(authority -> {
-            SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(authority.name());
-            authorities.add(simpleGrantedAuthority);
-        });
-        return authorities;
+        return user.getAuthorities()
+                .stream()
+                .map(authority -> new SimpleGrantedAuthority(authority.name()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public String getPassword() {
+        return user.getPassword();
     }
 
     @Override
@@ -31,11 +32,9 @@ public class SecureUser implements UserDetails {
     }
 
     @Override
-    public String getPassword() {
-        return user.getPassword();
+    public boolean isEnabled() {
+        return user.isEnabled();
     }
-
-
 
     @Override
     public boolean isAccountNonExpired() {
@@ -49,11 +48,6 @@ public class SecureUser implements UserDetails {
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
         return true;
     }
 }

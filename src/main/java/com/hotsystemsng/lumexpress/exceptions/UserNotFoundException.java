@@ -1,6 +1,6 @@
 package com.hotsystemsng.lumexpress.exceptions;
 
-public class UserNotFoundException extends RuntimeException {
+public class UserNotFoundException extends LumExpressException {
     public UserNotFoundException() {
         super();
     }

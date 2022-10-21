@@ -1,6 +1,6 @@
 package com.hotsystemsng.lumexpress.exceptions;
 
-public class VerificationTokenException extends RuntimeException {
+public class VerificationTokenException extends LumExpressException {
     public VerificationTokenException() {
         super();
     }
